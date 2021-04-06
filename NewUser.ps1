@@ -40,9 +40,9 @@ Show-Menu –Title 'License Selection'
  switch ($selection)
  {
      '1' {
-         $LicenseSKU = "thrashercompanies:O365_BUSINESS_ESSENTIALS"
+         $LicenseSKU = "thrashercompanies:O365_BUSINESS_ESSENTIALS","thrashercompanies:RIGHTSMANAGEMENT"
      } '2' {
-         $LicenseSKU = "thrashercompanies:O365_BUSINESS_PREMIUM"
+         $LicenseSKU = "thrashercompanies:O365_BUSINESS_PREMIUM","thrashercompanies:RIGHTSMANAGEMENT"
      } '3' {
          $LicenseSKU = "thrashercompanies:EXCHANGESTANDARD"
      } '4' {
