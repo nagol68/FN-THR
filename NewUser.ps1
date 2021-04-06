@@ -12,15 +12,28 @@
     Write-Host "2. Microsoft 365 Business Standard | Office users with a new computer or inheriting a newer PC"
     Write-Host "3. Exchange Online (Plan 1)        | Utility accounts, service accounts, etc."
     Write-Host "4. Office 365 F3                   | Crew members. (Exchange and Teams only) (do not add Azure license to Installers)"
-    Write-Host "Q: Press 'Q' to skip licensing."
 }
 
 $LicenseSKU = ""
 
-$email = Read-Host Enter email of new user
+$email = Read-Host "`nEnter email of new user"
+$username = $email -replace '@(.*)','' #Remove @ and everything after
+$domain = $email -replace '(.*)@','' #Remove @ and everything before
 
-$TeamsToAdd = Read-Host "Enter list of teams to be added (one per line)"
-$TeamsToAdd = $TeamsToAdd.Split([string[]]"`r`n", [StringSplitOptions]::None)
+$mobile = Read-Host "`nEnter mobile number"
+
+$rc = Read-Host "`nEnter RC number (if applicable)"
+
+$job = Read-Host "`nEnter job title"
+
+$department = Read-Host "`nEnter department"
+
+$location = Read-Host "`nEnter location"
+
+$manager = Read-Host "`nEnter manager's username"
+
+$TeamsToAdd = Read-Host "`nEnter list of teams to be added (one per line)"
+$TeamsToAdd = $TeamsToAdd.Split([string[]]"`r`n", [StringSplitOptions]::None) #Split multi-lined string into list 
 
 Show-Menu –Title 'License Selection'
  $selection = Read-Host "Please make a selection"
@@ -34,11 +47,28 @@ Show-Menu –Title 'License Selection'
          $LicenseSKU = "thrashercompanies:EXCHANGESTANDARD"
      } '4' {
          $LicenseSKU = "thrashercompanies:DESKLESSPACK"
-     } 'q' {
-         return
      }
  }
  
+# Filling in AD attributes
+
+Set-ADUser -Identity $username -Description $job -Office $location -MobilePhone $mobile -HomePhone $rc -Department $department -Title $job -Manager $manager -PasswordNeverExpires $true
+
+if($rc){
+    Set-ADUser -Identity $username -OfficePhone $rc
+    }
+    else{
+    Set-ADUser -Identity $username -OfficePhone $mobile
+}
+
+if($domain -eq "gothrasher.com"){
+    Set-ADUser -Identity $username -Company "Thrasher, Inc."
+    }elseif($domain -eq "midwestfr.com"){
+    Set-ADUser -Identity $username -Company "Midwest Foundation Repair"
+    }elseif($domain -eq "supportworks.com"){
+    Set-ADUser -Identity $username -Company "Supportworks, Inc."
+}
+
 
 # Adding M365 License
 
