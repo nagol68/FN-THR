@@ -17,8 +17,8 @@
 $LicenseSKU = ""
 
 $email = Read-Host "`nEnter email of new user"
-$username = $email -replace '@(.*)','' #Remove @ and everything after
-$domain = $email -replace '(.*)@','' #Remove @ and everything before
+$username = $email -replace ("@(.*)","") #Remove @ and everything after
+$domain = $email -replace ("(.*)@","") #Remove @ and everything before
 
 $mobile = Read-Host "`nEnter mobile number"
 
@@ -52,7 +52,7 @@ Show-Menu –Title 'License Selection'
  
 # Filling in AD attributes
 
-Set-ADUser -Identity $username -Description $job -Office $location -MobilePhone $mobile -HomePhone $rc -Department $department -Title $job -Manager $manager -PasswordNeverExpires $true
+Set-ADUser -Identity $username -Description $job -Office $location -MobilePhone $mobile -Department $department -Title $job -Manager $manager -PasswordNeverExpires $true
 
 if($rc){
     Set-ADUser -Identity $username -OfficePhone $rc
@@ -74,8 +74,9 @@ if($domain -eq "gothrasher.com"){
 
 Connect-MsolService
 
+Set-Msoluser -UserPrincipalName $email -UsageLocation "US"
 Set-MsolUserLicense -UserPrincipalName $email -AddLicenses $LicenseSKU
-
+<#
 # Adding to Teams
 
 Connect-MicrosoftTeams
@@ -84,7 +85,7 @@ $TeamsIDs = ForEach ($Team in $TeamsToAdd) {
     $TeamID = Get-Team -DisplayName $Team | Where {$_.DisplayName -match "$Team$"} | Select -expand GroupID
     Add-TeamUser -GroupId $TeamID -User $email
 }
-
+#>
 # Mailbox Permissions
 
 Connect-ExchangeOnline
