@@ -1,4 +1,13 @@
-﻿function Show-Menu
+﻿#
+##
+###
+####
+##### Run On SERVER-O365
+####
+###
+#
+
+function Show-Menu
 {
     param (
         [string]$Title = 'Create New User'
@@ -76,7 +85,7 @@ Connect-MsolService
 
 Set-Msoluser -UserPrincipalName $email -UsageLocation "US"
 Set-MsolUserLicense -UserPrincipalName $email -AddLicenses $LicenseSKU
-<#
+
 # Adding to Teams
 
 Connect-MicrosoftTeams
@@ -85,7 +94,7 @@ $TeamsIDs = ForEach ($Team in $TeamsToAdd) {
     $TeamID = Get-Team -DisplayName $Team | Where {$_.DisplayName -match "$Team$"} | Select -expand GroupID
     Add-TeamUser -GroupId $TeamID -User $email
 }
-#>
+
 # Mailbox Permissions
 
 Connect-ExchangeOnline
