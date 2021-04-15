@@ -12,7 +12,6 @@ function Show-Menu
     param (
         [string]$Title = 'Create New User'
     )
-    Clear-Host
     Write-Host "================ $Title ================"
     
     Write-Host "Select user type"
@@ -25,11 +24,14 @@ function Show-Menu
 
 $LicenseSKU = ""
 
+White-Host "All fields must be filled out unless specified"
+
 $email = Read-Host "`nEnter email of new user"
 $username = $email -replace ("@(.*)","") #Remove @ and everything after
 $domain = $email -replace ("(.*)@","") #Remove @ and everything before
 
-$mobile = Read-Host "`nEnter mobile number"
+$mobile = Read-Host "`nEnter mobile number (copied from ticket)"
+$mobile = $mobile -replace '\.','-'
 
 $rc = Read-Host "`nEnter RC number (if applicable)"
 
