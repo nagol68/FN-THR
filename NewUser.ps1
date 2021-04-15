@@ -66,6 +66,7 @@ Show-Menu –Title 'License Selection'
 Set-ADUser -Identity $username -Description $job -Office $location -MobilePhone $mobile -Department $department -Title $job -Manager $manager -PasswordNeverExpires $true
 
 if($rc){
+	$rc = $rc -replace '\.','-'
     Set-ADUser -Identity $username -OfficePhone $rc
     }
     else{
