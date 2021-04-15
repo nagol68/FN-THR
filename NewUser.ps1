@@ -12,7 +12,7 @@ function Show-Menu
     param (
         [string]$Title = 'Create New User'
     )
-    Write-Host "================ $Title ================"
+    Write-Host "`n================ $Title ================"
     
     Write-Host "Select user type"
     Write-Host "`n"
@@ -24,13 +24,15 @@ function Show-Menu
 
 $LicenseSKU = ""
 
-White-Host "All fields must be filled out unless specified"
+Clear-host
+
+Write-Host "`nAll fields must be filled out unless specified`n`nPaste each field directly from ticket"
 
 $email = Read-Host "`nEnter email of new user"
 $username = $email -replace ("@(.*)","") #Remove @ and everything after
 $domain = $email -replace ("(.*)@","") #Remove @ and everything before
 
-$mobile = Read-Host "`nEnter mobile number (copied from ticket)"
+$mobile = Read-Host "`nEnter mobile number"
 $mobile = $mobile -replace '\.','-'
 
 $rc = Read-Host "`nEnter RC number (if applicable)"
@@ -111,3 +113,5 @@ Add-MailboxFolderPermission `
     ${email}:\Calendar `
     -user ThrasherDefaultAuthor@gothrasher.com `
     -AccessRights Reviewer
+
+Write-host "`nComplete!"
