@@ -48,6 +48,8 @@ $manager = Read-Host "`nEnter manager's username"
 $TeamsToAdd = Read-Host "`nEnter list of teams to be added (one per line)"
 $TeamsToAdd = $TeamsToAdd.Split([string[]]"`r`n", [StringSplitOptions]::None) #Split multi-lined string into list 
 
+$Thrasher = $TRUE
+
 Show-Menu –Title 'License Selection'
  $selection = Read-Host "Please make a selection"
  switch ($selection)
@@ -63,6 +65,8 @@ Show-Menu –Title 'License Selection'
      }
  }
  
+Write-Host "`nPlease wait..."
+
 # Filling in AD attributes
 
 Set-ADUser -Identity $username -Description $job -Office $location -MobilePhone $mobile -Department $department -Title $job -Manager $manager -PasswordNeverExpires $true
@@ -104,14 +108,26 @@ $TeamsIDs = ForEach ($Team in $TeamsToAdd) {
 
 Connect-ExchangeOnline
 
-Set-MailboxFolderPermission `
-    ${email}:\Calendar `
-    -user Default `
-    -AccessRights Reviewer
+if($Thrasher){
+    Set-MailboxFolderPermission `
+        ${email}:\Calendar `
+        -user Default `
+        -AccessRights Reviewer
         
-Add-MailboxFolderPermission `
-    ${email}:\Calendar `
-    -user ThrasherDefaultAuthor@gothrasher.com `
-    -AccessRights Reviewer
+    Add-MailboxFolderPermission `
+        ${email}:\Calendar `
+        -user ThrasherDefaultAuthor@gothrasher.com `
+        -AccessRights Reviewer
+}else{
+    Set-MailboxFolderPermission `
+        ${email}:\Calendar `
+        -user Default `
+        -AccessRights Reviewer
+        
+    Add-MailboxFolderPermission `
+        ${email}:\Calendar `
+        SupportworksDefaultAuthor@supportworks.com `
+        -AccessRights Author
+}
 
-Write-host "`nComplete!"
+Write-host "`nUser Setup is Complete!"
