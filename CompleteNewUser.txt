@@ -1,0 +1,116 @@
+#
+##
+###
+####
+##### Run On SERVER-O365
+####
+###
+##
+#
+
+#Variables
+$index = 0
+
+Clear-Host
+
+#Gets input and splits by section
+$ticketInput = Read-Host "`nPlease paste entire ticket"
+$ticketArray = $ticketInput -Split("###")
+
+#Gets name
+$index = 4
+$name = $ticketArray[$index]
+$name = $name.Split([string[]]"`r`n", [StringSplitOptions]::None)[1]
+
+#Gets title
+$index = 6
+$title = $ticketArray[$index]
+$title = $title.Split([string[]]"`r`n", [StringSplitOptions]::None)
+if($title[3] -eq "Other"){
+	$index++
+	$title = $ticketArray[$index]
+	$title = $title.Split([string[]]"`r`n", [StringSplitOptions]::None)[1]
+	} else {
+	$title = $title[3]
+}
+
+#Gets Department
+$index++
+$department = $ticketArray[$index]
+$department = $department.Split([string[]]"`r`n", [StringSplitOptions]::None)[3]
+
+#Gets Manager
+$index++
+$manager = $ticketArray[$index]
+$manager = $manager.Split([string[]]"`r`n", [StringSplitOptions]::None)[3]
+$manager = $manager.Split("<")[1]
+$manager = $manager.Split(">")[0]
+
+#Gets Location
+$index++
+$location = $ticketArray[$index]
+$location = $location.Split([string[]]"`r`n", [StringSplitOptions]::None)[3]
+
+#Gets phone number
+$index += 2
+#
+# ADD THIS
+#	Will likely require manual input
+#		Could check entire ticket for phone numbers, then add. Will look into later
+#
+$index++
+
+#Gets workstation info
+index += 2
+$computer = $ticketArray[$index]
+$computer = $computer.Split([string[]]"`r`n", [StringSplitOptions]::None)
+if($computer[0] -eq "Workstation")
+{
+	
+	
+	index += 5 #gets passed dist groups, temp skip
+}
+
+#Gets Teams
+index++
+
+
+ 
+Company-Menu –Title 'Select Company'
+ $selection = Read-Host "Please make a selection"
+ switch ($selection)
+ {
+     '1' {
+         
+     } '2' {
+         
+     } '3' {
+         
+     } '4' {
+         
+     } '5' {
+		
+	 }
+ }
+ 
+
+
+
+
+
+
+
+function Company-Menu
+{
+	param (
+		[string]$Title = 'Select Company'
+	)
+	
+	Write-Host "Select company new user is for:"
+    Write-Host "`n"
+    Write-Host "`n1. Thrasher"
+    Write-Host "2. Midwest"
+    Write-Host "3. Supportworks"
+    Write-Host "4. HelloGarage HQ"
+	Write-Host "5. HelloGarage Franchine"
+}
