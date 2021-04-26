@@ -19,13 +19,11 @@ $ticketArray = $ticketInput -Split("###")
 
 #Gets name
 $index = 4
-$name = $ticketArray[$index]
-$name = $name.Split([string[]]"`r`n", [StringSplitOptions]::None)[1]
+$name = $ticketArray[$index].Split([string[]]"`r`n", [StringSplitOptions]::None)[1]
 
 #Gets title
 $index = 6
-$title = $ticketArray[$index]
-$title = $title.Split([string[]]"`r`n", [StringSplitOptions]::None)
+$title = $ticketArray[$index].Split([string[]]"`r`n", [StringSplitOptions]::None)
 if($title[3] -eq "Other"){
 	$index++
 	$title = $ticketArray[$index]
@@ -36,20 +34,17 @@ if($title[3] -eq "Other"){
 
 #Gets Department
 $index++
-$department = $ticketArray[$index]
-$department = $department.Split([string[]]"`r`n", [StringSplitOptions]::None)[3]
+$department = $ticketArray[$index].Split([string[]]"`r`n", [StringSplitOptions]::None)[3]
 
 #Gets Manager
 $index++
-$manager = $ticketArray[$index]
-$manager = $manager.Split([string[]]"`r`n", [StringSplitOptions]::None)[3]
+$manager = $ticketArray[$index].Split([string[]]"`r`n", [StringSplitOptions]::None)[3]
 $manager = $manager.Split("<")[1]
 $manager = $manager.Split(">")[0]
 
 #Gets Location
 $index++
-$location = $ticketArray[$index]
-$location = $location.Split([string[]]"`r`n", [StringSplitOptions]::None)[3]
+$location = $ticketArray[$index].Split([string[]]"`r`n", [StringSplitOptions]::None)[3]
 
 #Gets phone number
 $index += 2
@@ -62,8 +57,7 @@ $index++
 
 #Gets workstation info
 index += 2
-$computer = $ticketArray[$index]
-$computer = $computer.Split([string[]]"`r`n", [StringSplitOptions]::None)
+$computer = $ticketArray[$index].Split([string[]]"`r`n", [StringSplitOptions]::None)
 if($computer[0] -eq "Workstation")
 {
 	
@@ -73,9 +67,20 @@ if($computer[0] -eq "Workstation")
 
 #Gets Teams
 index++
+$TeamsToAdd = $ticketArray[index].Split([string[]]"`r`n", [StringSplitOptions]::None) #Split multi-lined string into list 
+$TeamsToAdd = $TeamsToAdd[3..($TeamsToAdd.Length-2)]
 
+#Gets SharePoint
 
- 
+#Skipping for now
+index += 2
+
+#Gets Notes
+index++
+$notes = $ticketArray[index]
+
+Clear-Host
+
 Company-Menu –Title 'Select Company'
  $selection = Read-Host "Please make a selection"
  switch ($selection)
@@ -88,9 +93,7 @@ Company-Menu –Title 'Select Company'
          
      } '4' {
          
-     } '5' {
-		
-	 }
+     }
  }
  
 
@@ -111,6 +114,5 @@ function Company-Menu
     Write-Host "`n1. Thrasher"
     Write-Host "2. Midwest"
     Write-Host "3. Supportworks"
-    Write-Host "4. HelloGarage HQ"
-	Write-Host "5. HelloGarage Franchine"
+	Write-Host "4. HelloGarage Franchine"
 }
