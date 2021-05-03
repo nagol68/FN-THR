@@ -81,39 +81,6 @@ $notes = $ticketArray[index]
 
 Clear-Host
 
-Company-Menu –Title 'Select Company'
- $selection = Read-Host "Please make a selection"
- switch ($selection)
- {
-     '1' {
-         
-     } '2' {
-         
-     } '3' {
-         
-     } '4' {
-         
-     }
- }
+$name
  
-
-
-
-
-
-
-
-function Company-Menu
-{
-	param (
-		[string]$Title = 'Select Company'
-	)
-	
-	Write-Host "Select company new user is for:"
-    Write-Host "`n"
-    Write-Host "`n1. Thrasher"
-    Write-Host "2. Midwest"
-    Write-Host "3. Supportworks"
-	Write-Host "4. HelloGarage Franchine"
-}
 

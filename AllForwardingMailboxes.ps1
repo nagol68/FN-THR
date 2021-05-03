@@ -1,0 +1,1 @@
+﻿Get-mailbox -ResultSize Unlimited | select UserPrincipalName,ForwardingSmtpAddress,DeliverToMailboxAndForward | where {$_.ForwardingSmtpAddress -ne $Null} | Export-csv C:\Office365Forwards.csv -NoTypeInformation
