@@ -24,6 +24,8 @@ function Show-Menu
 
 $LicenseSKU = ""
 
+Start-ADSyncSyncCycle -PolicyType Delta
+
 Clear-host
 
 Write-Host "`nAll fields must be filled out unless specified`n`nPaste each field directly from ticket"
