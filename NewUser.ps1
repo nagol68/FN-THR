@@ -22,9 +22,33 @@ function Show-Menu
     Write-Host "4. Office 365 F3                   | Crew members. (Exchange and Teams only) (do not add Azure license to Installers)"
 }
 
+function First-Menu
+{
+    
+    Write-Host "First user setup within the hour?"
+    Write-Host "`n"
+    Write-Host "`n1. Yes."
+    Write-Host "2. No"
+}
+
 $LicenseSKU = ""
 
-Start-ADSyncSyncCycle -PolicyType Delta
+#Start-ADSyncSyncCycle -PolicyType Delta
+
+Clear-host
+
+First-Menu
+ $selection = Read-Host "Please make a selection"
+ switch ($selection)
+ {
+     '1' {
+         Connect-MsolService
+         Connect-ExchangeOnline
+         Connect-MicrosoftTeams
+     } '2' {
+
+     }
+ }
 
 Clear-host
 
@@ -92,14 +116,10 @@ if($domain -eq "gothrasher.com"){
 
 # Adding M365 License
 
-Connect-MsolService
-
 Set-Msoluser -UserPrincipalName $email -UsageLocation "US"
 Set-MsolUserLicense -UserPrincipalName $email -AddLicenses $LicenseSKU
 
 # Adding to Teams
-
-Connect-MicrosoftTeams
 
 $TeamsIDs = ForEach ($Team in $TeamsToAdd) {
     $TeamID = Get-Team -DisplayName $Team | Where {$_.DisplayName -match "$Team$"} | Select -expand GroupID
@@ -107,8 +127,6 @@ $TeamsIDs = ForEach ($Team in $TeamsToAdd) {
 }
 
 # Mailbox Permissions
-
-Connect-ExchangeOnline
 
 if($Thrasher){
     Set-MailboxFolderPermission `
