@@ -121,7 +121,7 @@ Set-MsolUserLicense -UserPrincipalName $email -AddLicenses $LicenseSKU
 
 # Adding to Teams
 
-$TeamsIDs = ForEach ($Team in $TeamsToAdd) {
+$TeamsID = ForEach ($Team in $TeamsToAdd) {
     $TeamID = Get-Team -DisplayName $Team | Where {$_.DisplayName -match "$Team$"} | Select -expand GroupID
     Add-TeamUser -GroupId $TeamID -User $email
 }
