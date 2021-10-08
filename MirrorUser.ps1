@@ -1,3 +1,5 @@
+Clear-Host
+
 $Source = Read-Host "Enter user logon name to copy from"
 $Target = Read-Host "Enter user logon name to copy to"
 
