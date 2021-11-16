@@ -99,7 +99,7 @@ Write-Host "`nPlease wait..."
 
 # Filling in AD attributes
 
-Set-ADUser -Identity $username -Description $job -Office $location -MobilePhone $mobile -Department $department -Title $job -Manager $manager -PasswordNeverExpires $true -Email $email -EmailAddress "SMTP:$email"
+Set-ADUser -Identity $username -Description $job -Office $location -MobilePhone $mobile -Department $department -Title $job -Manager $manager -PasswordNeverExpires $true -EmailAddress $email -proxyAddresses "SMTP:$email"
 
 
 if($rc){
