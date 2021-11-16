@@ -75,6 +75,10 @@ $TeamsToAdd = Read-Host "`nEnter list of teams to be added (one per line)"
 $TeamsToAdd = $TeamsToAdd.Split([string[]]"`r`n", [StringSplitOptions]::None) #Split multi-lined string into list 
 
 $Thrasher = $TRUE
+if($domain -ne "thrasher.com")
+{
+    $Thrasher = $FALSE
+}
 
 Show-Menu –Title 'License Selection'
  $selection = Read-Host "Please make a selection"
@@ -95,7 +99,8 @@ Write-Host "`nPlease wait..."
 
 # Filling in AD attributes
 
-Set-ADUser -Identity $username -Description $job -Office $location -MobilePhone $mobile -Department $department -Title $job -Manager $manager -PasswordNeverExpires $true
+Set-ADUser -Identity $username -Description $job -Office $location -MobilePhone $mobile -Department $department -Title $job -Manager $manager -PasswordNeverExpires $true -Email $email -EmailAddress "SMTP:$email"
+
 
 if($rc){
 	$rc = $rc -replace '\.','-'
@@ -146,7 +151,7 @@ if($Thrasher){
         
     Add-MailboxFolderPermission `
         ${email}:\Calendar `
-        SupportworksDefaultAuthor@supportworks.com `
+        -user SupportworksDefaultAuthor@supportworks.com `
         -AccessRights Author
 }
 
